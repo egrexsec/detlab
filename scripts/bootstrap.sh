@@ -795,12 +795,3 @@ jobs:
 EOF
 
 echo "Bootstrap complete in $REPO_ROOT"
-echo "Next steps:"
-echo "  chmod +x scripts/bootstrap.sh"
-echo "  python -m venv .venv"
-echo "  source .venv/bin/activate"
-echo "  pip install .[dev]"
-echo "  ruff check ."
-echo "  pytest"
-echo "  detlab validate detections"
-echo "  detlab report --path detections --output reports/coverage.md"
