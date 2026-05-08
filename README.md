@@ -29,14 +29,14 @@ git clone https://github.com/YOUR_USERNAME/detlab.git
 cd detlab
 python -m venv .venv
 source .venv/bin/activate
-pip install .[dev]
+pip install -e .[dev]
 ```
 
 ## Quick start
 
 ```bash
 detlab validate detections
-detlab report --path detections --format markdown --output reports/coverage.md
+detlab report detections --format markdown --output reports/coverage.md
 detlab map-attck detections --output reports/attack-map.json
 ```
 
