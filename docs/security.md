@@ -4,7 +4,7 @@
 
 Please do not report security vulnerabilities through public GitHub issues.
 
-Instead, report them privately by emailing: your-public-security-email@example.com
+Instead, report them privately by emailing: mell0wx@proton.me
 
 Include:
 - A description of the issue
