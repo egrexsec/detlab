@@ -34,6 +34,7 @@ detection:
   condition: selection
 """
 
+
 def write_sample_detection():
     detections = Path("detections/windows")
     detections.mkdir(parents=True, exist_ok=True)
