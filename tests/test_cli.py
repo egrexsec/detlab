@@ -54,7 +54,7 @@ def test_report_generates_markdown():
         write_sample_detection()
         result = runner.invoke(
             app,
-            ["report", "--path", "detections", "--format", "markdown", "--output", "reports/coverage.md"],
+            ["report", "detections", "--format", "markdown", "--output", "reports/coverage.md"],
         )
         assert result.exit_code == 0, result.output
         assert Path("reports/coverage.md").exists()
