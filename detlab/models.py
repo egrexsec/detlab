@@ -28,6 +28,11 @@ class TestRef(BaseModel):
     source: str
     test_id: str
 
+    @field_validator("test_id", mode="before")
+    @classmethod
+    def coerce_test_id(cls, value):
+        return str(value)
+
 
 class DetectionLogic(BaseModel):
     selection: dict[str, Any]
