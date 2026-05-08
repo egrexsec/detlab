@@ -27,13 +27,12 @@ tests:
 detection:
   selection:
     EventID: 1
-    Image|endswith: '\\powershell.exe'
+    Image|endswith: '\\\\powershell.exe'
     CommandLine|contains:
       - '-enc'
       - '-encodedcommand'
   condition: selection
 """
-
 
 def write_sample_detection():
     detections = Path("detections/windows")
