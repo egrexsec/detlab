@@ -17,7 +17,7 @@ falsepositives:
 tests:
   - name: Atomic Red Team T1059.001
     source: atomic-red-team
-    test_id: 1
+    test_id: "1"
 detection:
   selection:
     EventID: 1
