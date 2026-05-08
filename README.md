@@ -34,85 +34,10 @@ pip install .[dev]
 
 ## Quick start
 
-Initialize a sample detection:
-
-```bash
-detlab init detections
-```
-
-Validate detections:
-
 ```bash
 detlab validate detections
-```
-
-Generate a markdown report:
-
-```bash
 detlab report --path detections --format markdown --output reports/coverage.md
-```
-
-Generate ATT&CK mapping JSON:
-
-```bash
 detlab map-attck detections --output reports/attack-map.json
-```
-
-## Example workflow
-
-1. Add or update a detection YAML file in `detections/`
-2. Run `detlab validate detections`
-3. Run `detlab report --path detections`
-4. Open a pull request
-5. Let GitHub Actions verify schema and generate the report artifact
-
-## Detection schema
-
-Each detection should include:
-- `id`
-- `title`
-- `description`
-- `logsource`
-- `attack`
-- `severity`
-- `status`
-- `author`
-- `references`
-- `falsepositives`
-- `tests`
-- `detection`
-
-Example:
-
-```yaml
-id: DET-0001
-title: Suspicious Encoded PowerShell
-description: Detects PowerShell launched with encoded command arguments.
-logsource:
-  product: windows
-  service: sysmon
-attack:
-  technique: T1059.001
-  tactic: execution
-severity: high
-status: experimental
-author: Mell0wx
-references:
-  - https://attack.mitre.org/techniques/T1059/001/
-falsepositives:
-  - Administrative scripts using encoded commands
-tests:
-  - name: Atomic Red Team T1059.001
-    source: atomic-red-team
-    test_id: "1"
-detection:
-  selection:
-    EventID: 1
-    Image|endswith: '\powershell.exe'
-    CommandLine|contains:
-      - '-enc'
-      - '-encodedcommand'
-  condition: selection
 ```
 
 ## Roadmap
@@ -125,11 +50,11 @@ detection:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Security
 
-Please read [SECURITY.md](SECURITY.md) for vulnerability reporting guidance.
+Please read [SECURITY.md](SECURITY.md).
 
 ## License
 
