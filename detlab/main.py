@@ -32,8 +32,16 @@ def main(
 
 
 @app.command()
-def validate(path: str = "detections") -> None:
-    files, valid, errors = load_detection_dir(Path(path))
+def validate(
+    path: Path = typer.Argument(
+        Path("detections"),
+        exists=False,
+        readable=True,
+        resolve_path=False,
+        help="Path to the detections directory.",
+    )
+) -> None:
+    files, valid, errors = load_detection_dir(path)
 
     table = Table(title="Validation Results")
     table.add_column("File")
@@ -53,20 +61,34 @@ def validate(path: str = "detections") -> None:
 
 
 @app.command("map-attck")
-def map_attck(path: str = "detections", output: Optional[str] = None) -> None:
-    _, valid, errors = load_detection_dir(Path(path))
+def map_attck(
+    path: Path = typer.Argument(
+        Path("detections"),
+        exists=False,
+        readable=True,
+        resolve_path=False,
+        help="Path to the detections directory.",
+    ),
+    output: Optional[Path] = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Write ATT&CK mapping to a JSON file.",
+    ),
+) -> None:
+    _, valid, errors = load_detection_dir(path)
     if not valid:
         for file, err in errors.items():
             console.print(f"[red]{file}[/red]: {err}")
         raise typer.Exit(code=1)
 
-    detections = [load_detection_file(p) for p in Path(path).rglob("*.y*ml")]
+    detections = [load_detection_file(p) for p in path.rglob("*.y*ml")]
     mapping = build_technique_map(detections)
     rendered = json.dumps(mapping, indent=2)
 
     if output:
-        Path(output).parent.mkdir(parents=True, exist_ok=True)
-        Path(output).write_text(rendered, encoding="utf-8")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(rendered, encoding="utf-8")
         console.print(f"[green]Wrote ATT&CK mapping to[/green] {output}")
     else:
         console.print(rendered)
@@ -74,17 +96,32 @@ def map_attck(path: str = "detections", output: Optional[str] = None) -> None:
 
 @app.command()
 def report(
-    path: str = "detections",
-    format: str = "markdown",
-    output: str = "reports/coverage.md",
+    path: Path = typer.Argument(
+        Path("detections"),
+        exists=False,
+        readable=True,
+        resolve_path=False,
+        help="Path to the detections directory.",
+    ),
+    format: str = typer.Option(
+        "markdown",
+        "--format",
+        help="Output format: markdown or json.",
+    ),
+    output: Path = typer.Option(
+        Path("reports/coverage.md"),
+        "--output",
+        "-o",
+        help="Output file path.",
+    ),
 ) -> None:
-    _, valid, errors = load_detection_dir(Path(path))
+    _, valid, errors = load_detection_dir(path)
     if not valid:
         for file, err in errors.items():
             console.print(f"[red]{file}[/red]: {err}")
         raise typer.Exit(code=1)
 
-    detections = [load_detection_file(p) for p in Path(path).rglob("*.y*ml")]
+    detections = [load_detection_file(p) for p in path.rglob("*.y*ml")]
 
     if format == "markdown":
         content = generate_markdown_report(detections)
@@ -94,7 +131,7 @@ def report(
         console.print("[red]Unsupported format. Use 'markdown' or 'json'.[/red]")
         raise typer.Exit(code=1)
 
-    write_report(output, content)
+    write_report(str(output), content)
     console.print(f"[green]Report written to[/green] {output}")
 
 
