@@ -6,10 +6,11 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from detlab import __version__
 from detlab.attck import build_technique_map
 from detlab.reporting import generate_json_report, generate_markdown_report, write_report
 from detlab.validators import load_detection_file, load_detection_dir
+
+VERSION = "0.1.0"
 
 app = typer.Typer(help="DetLab - detection-as-code validation and ATT&CK reporting")
 console = Console()
@@ -17,7 +18,7 @@ console = Console()
 
 def version_callback(value: bool):
     if value:
-        console.print(f"DetLab version: {__version__}")
+        console.print(f"DetLab version: {VERSION}")
         raise typer.Exit()
 
 
