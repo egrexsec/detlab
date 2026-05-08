@@ -3,7 +3,6 @@ from typing import Any
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-
 ATTACK_ID_RE = re.compile(r"^T\d{4}(?:\.\d{3})?$")
 
 
