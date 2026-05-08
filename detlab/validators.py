@@ -1,25 +1,19 @@
 from pathlib import Path
 from typing import Tuple
 
-import yaml
 from pydantic import ValidationError
 
 from detlab.models import Detection
-
-
-def load_yaml(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    return data or {}
+from detlab.parser import find_detection_files, load_yaml_file
 
 
 def load_detection_file(path: Path) -> Detection:
-    data = load_yaml(path)
+    data = load_yaml_file(path)
     return Detection.model_validate(data)
 
 
 def load_detection_dir(path: Path) -> Tuple[list[Path], bool, dict[Path, str]]:
-    files = sorted([p for p in path.rglob("*.yml")] + [p for p in path.rglob("*.yaml")])
+    files = find_detection_files(path)
     errors: dict[Path, str] = {}
 
     for file in files:
